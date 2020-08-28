@@ -21,7 +21,7 @@ def connect(params_dic):
 
 
 def postgresql_to_dataframe(conn, select_query, column_names):
-            
+    print(select_query)
     cursor = conn.cursor()
     try:
         cursor.execute(select_query)
@@ -33,6 +33,7 @@ def postgresql_to_dataframe(conn, select_query, column_names):
     cursor.close()
     
     df = pd.DataFrame(tupples, columns=column_names)
+    df.sort_values(by = ['datetime'],inplace = True)
     return df
 
 
@@ -46,14 +47,15 @@ def gettablerange(host,database,username,password,tablename,startdt,enddt):
     }
     startdt = '\'' + str(startdt) + '\''
     enddt = '\'' + str(enddt) + '\''
-    
+
     conn = connect(param_dic)
     
     column_names = ["datetime","internaltime","open","high","low","close","volume","unknown","expirydate","exchange"]
-    df = postgresql_to_dataframe(conn, "SELECT * FROM public."+tablename+" WHERE datetime BETWEEN "+startdt+" and "+enddt, column_names)
+    df = postgresql_to_dataframe(conn, "SELECT * FROM public."+tablename+" WHERE datetime between "+startdt+" AND "+enddt, column_names)
     return df
 
 def gettable(host,database,username,password,tablename):
+    
     param_dic = {
     "host"      : host,
     "database"  : database,
@@ -67,3 +69,18 @@ def gettable(host,database,username,password,tablename):
     df = postgresql_to_dataframe(conn, "SELECT * FROM public."+tablename, column_names)
     return df
     
+def expirymonth(host,database,username,password,tablename,month,year):
+    
+    param_dic = {
+        "host"      : host,
+        "database"  : database,
+        "user"      : username,
+        "password"  : password
+    }
+    startdt = '\''+str(year +'-'+month+'-01'+'  09:14:00')+'\''
+    enddt = '\''+str(year +'-'+month+'-31'+'  23:59:00')+'\''
+    conn = connect(param_dic)
+    
+    column_names = ["datetime","internaltime","open","high","low","close","volume","unknown","expirydate","exchange"]
+    df = postgresql_to_dataframe(conn, "SELECT * FROM public."+tablename+" WHERE expirydate between "+startdt+" AND "+enddt, column_names)
+    return df
