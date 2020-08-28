@@ -12,4 +12,10 @@ Functions:
 Function Parameters:
 gettablerange(host-url,database-name,username,password,table-name,start-date_time,end-date_time)
    
+3)expirymonth: This function retrieves the table for the expiry month and year set by the user.
+Function Parameters:
+expirymonth(host-url,database-name,username,password,table-name,month,year)
+
+
+Note: Ensure to prefix single digit month's by a 0. Example: August - 08.
 Note: date_time format follows the : "YYYY-MM-DD HH:MM:SS" format 
