@@ -21,7 +21,7 @@ def connect(params_dic):
 
 
 def postgresql_to_dataframe(conn, select_query, column_names):
-    print(select_query)
+
     cursor = conn.cursor()
     try:
         cursor.execute(select_query)
