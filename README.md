@@ -4,7 +4,7 @@ This repository can be used to scrape data from a Postgresql Table to a Pandas D
 
 Functions:
 
-1)gettable: This function retrieves the entire table.
+1)gettable: This function retrieves the entire table.\n
    Function Parameters:
    gettable(host-url,database-name,username,password,tablename)
     
