@@ -1,6 +1,5 @@
-# postgre2df
+# dbscrape functionality 
 
-This repository can be used to scrape data from a Postgresql Table to a Pandas DataFrame.
 
 Functions:
 
