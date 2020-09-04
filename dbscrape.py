@@ -78,7 +78,7 @@ def expirymonth(host,database,username,password,tablename,month,year):
         "password"  : password
     }
     startdt = '\''+str(year +'-'+month+'-01'+'  09:14:00')+'\''
-    enddt = '\''+str(year +'-'+month+'-31'+'  23:59:00')+'\''
+    enddt = '\''+str(year +'-'+(month+1)+'-01'+'  23:59:00')+'\''
     conn = connect(param_dic)
     
     column_names = ["datetime","internaltime","open","high","low","close","volume","unknown","expirydate","exchange"]
