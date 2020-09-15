@@ -7,7 +7,6 @@ Created on Mon Sep  7 09:29:44 2020
 import pandas as pd
 from dbscrape import *
 
-
 def minutetoyear(startmonth,endmonth,startyear,endyear):
     
     dffinal = pd.DataFrame(columns = ['date','open','high','low','close','volume'])
@@ -21,9 +20,13 @@ def minutetoyear(startmonth,endmonth,startyear,endyear):
         df = df[['open','high','low','close','volume']]
         
         dffinal = dffinal.append(minutetomonth(month,year,df),ignore_index = True)
-    
-    
+
+    dffinal['date'] = pd.to_datetime(dffinal['date'], format="%d-%m-%Y")
+    dffinal = dffinal.set_index('date')
+
     return dffinal
+
+
 
 def minutetomonth(month,year,df):
     
@@ -34,7 +37,7 @@ def minutetomonth(month,year,df):
     endday = df.index[-1].day
 
     for day in range(startday,endday):
-    
+        
         high = 0
         low =  9999999999999
         volume = 0
@@ -46,8 +49,8 @@ def minutetomonth(month,year,df):
             
             if count==0:
                 open1 = df['open'][i]
-                close1 = df['close'][i+360]
                 count+=1
+                
     
             high = max(high,df['high'][i])
             low = min(low,df['low'][i])
@@ -55,8 +58,9 @@ def minutetomonth(month,year,df):
             
             i+=1
                     
+        close1 = df['close'][i-1]
+            
         if(open1!=0):
             dft = dft.append({'date': str(day)+'-'+str(month)+'-'+str(year), 'open' : open1,'high':high,'low':low,'close':close1,'volume':volume} , ignore_index=True)
-        
-        
+                
     return dft
